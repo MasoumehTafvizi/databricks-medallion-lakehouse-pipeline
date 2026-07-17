@@ -1,0 +1,350 @@
+{
+  "datasets": [
+    {
+      "name": "2c6b2328",
+      "displayName": "Sales Summary Insights and Performance Metrics",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `default`;\n",
+        "\n",
+        "SELECT\n",
+        "    ROUND(SUM(s.sales_amount), 2) AS total_sales,\n",
+        "    ROUND(\n",
+        "        SUM(s.sales_amount - (s.quantity * p.cost)),\n",
+        "        2\n",
+        "    ) AS total_profit,\n",
+        "    SUM(s.quantity) AS total_quantity\n",
+        "FROM workspace.salesdb.fact_sales AS s\n",
+        "LEFT JOIN workspace.salesdb.dim_products AS p\n",
+        "    ON s.product_key = p.product_key;"
+      ]
+    },
+    {
+      "name": "411a3414",
+      "displayName": "Aggregate Sales by Product Group Analysis",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `bronze`;\n",
+        "\n",
+        "SELECT \n",
+        "    SUM(sales_amount)AS Sales,\n",
+        "    p.category AS category\n",
+        "FROM workspace.salesdb.fact_sales s\n",
+        "LEFT JOIN workspace.salesdb.dim_products p\n",
+        "ON s.product_key = p.product_key\n",
+        "GROUP BY p.category\n",
+        "ORDER BY p.category"
+      ]
+    },
+    {
+      "name": "e08d2c70",
+      "displayName": "Monthly Sales Summary Report",
+      "queryLines": [
+        "USE CATALOG `workspace`;\n",
+        "USE SCHEMA `default`;\n",
+        "\n",
+        "SELECT SUM(sales_amount) AS sales, \n",
+        "    DATE_TRUNC('MONTH' ,order_date) month_sales\n",
+        "FROM workspace.salesdb.fact_sales\n",
+        "GROUP BY DATE_TRUNC('MONTH' ,order_date)\n",
+        "ORDER BY month_sales"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "db7606b1",
+      "displayName": "Main",
+      "layout": [
+        {
+          "widget": {
+            "name": "787b945f",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "2c6b2328",
+                  "fields": [
+                    {
+                      "name": "total_profit",
+                      "expression": "`total_profit`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Tota Profit :",
+                "showTitle": true,
+                "description": "Total Profit",
+                "showDescription": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "total_profit",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  },
+                  "rowNumber": 1
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 7,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "a1feaf15",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "2c6b2328",
+                  "fields": [
+                    {
+                      "name": "total_quantity",
+                      "expression": "`total_quantity`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "description": "Total Quantity",
+                "showDescription": true,
+                "title": "Total Quantity:"
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "total_quantity",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  },
+                  "rowNumber": 1
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 7,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "d2e6e464",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "2c6b2328",
+                  "fields": [
+                    {
+                      "name": "total_quantity",
+                      "expression": "`total_quantity`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "title": "Total Quantity",
+                "showTitle": true,
+                "description": "Total Quantity",
+                "showDescription": true
+              },
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "total_quantity",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 0
+                    }
+                  },
+                  "rowNumber": 1
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 7,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "fcf4bde7",
+            "queries": [
+              {
+                "name": "218e6ee352314d3d8f9de96ee4d51a80",
+                "query": {
+                  "datasetName": "411a3414",
+                  "fields": [
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    },
+                    {
+                      "name": "column_40f82ff727",
+                      "expression": "SUM(`Sales`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 0,
+              "viz_spec": {
+                "display_name": "Sales By Category",
+                "viz_type": "CHART",
+                "serialized_options": "{\"isAggregationOn\":true,\"series\":{\"error_y\":{\"type\":\"data\",\"visible\":true},\"stacking\":null},\"coefficient\":1,\"yAxis\":[{\"type\":\"-\"},{\"opposite\":true,\"type\":\"-\"}],\"columnConfigurationMap\":{\"x\":{\"column\":\"category\",\"id\":\"column_40f82ff726\"},\"y\":[{\"column\":\"Sales\",\"id\":\"column_40f82ff727\",\"transform\":\"SUM\"}]},\"alignYAxesAtZero\":true,\"direction\":{\"type\":\"counterclockwise\"},\"swappedAxes\":false,\"percentFormat\":\"0[.]00%\",\"textFormat\":\"\",\"legend\":{\"traceorder\":\"normal\"},\"globalSeriesType\":\"pie\",\"version\":2,\"sizemode\":\"diameter\",\"seriesOptions\":{\"column_40f82ff727\":{\"name\":\"Sales\",\"type\":\"pie\",\"yAxis\":0}},\"error_y\":{\"type\":\"data\",\"visible\":true},\"sortX\":true,\"showDataLabels\":true,\"missingValuesAsZero\":true,\"useAggregationsUi\":true,\"numberFormat\":\"0,0.[00000]\",\"dateTimeFormat\":\"DD/MM/YYYY HH:mm\",\"sortY\":true,\"valuesOptions\":{},\"xAxis\":{\"labels\":{\"enabled\":true},\"type\":\"-\"}}",
+                "query_name": "218e6ee352314d3d8f9de96ee4d51a80"
+              }
+            }
+          },
+          "position": {
+            "x": 7,
+            "y": 2,
+            "width": 5,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "009bf8e2",
+            "queries": [
+              {
+                "name": "fb1a5629b4804d79ab6d9a647364174c",
+                "query": {
+                  "datasetName": "e08d2c70",
+                  "fields": [
+                    {
+                      "name": "month_sales",
+                      "expression": "`month_sales`"
+                    },
+                    {
+                      "name": "column_283fff9e23",
+                      "expression": "SUM(`sales`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 0,
+              "viz_spec": {
+                "display_name": "Sales Over Month",
+                "viz_type": "CHART",
+                "serialized_options": "{\"series\":{\"error_y\":{\"type\":\"data\",\"visible\":true},\"stacking\":null},\"coefficient\":1,\"yAxis\":[{\"type\":\"-\"},{\"opposite\":true,\"type\":\"-\"}],\"columnConfigurationMap\":{\"x\":{\"column\":\"month_sales\",\"id\":\"column_283fff9e22\"},\"y\":[{\"column\":\"sales\",\"id\":\"column_283fff9e23\",\"transform\":\"SUM\"}]},\"alignYAxesAtZero\":true,\"direction\":{\"type\":\"counterclockwise\"},\"swappedAxes\":false,\"percentFormat\":\"0[.]00%\",\"textFormat\":\"\",\"legend\":{\"traceorder\":\"normal\"},\"globalSeriesType\":\"line\",\"version\":2,\"sizemode\":\"diameter\",\"seriesOptions\":{\"column_283fff9e23\":{\"name\":\"sales\",\"type\":\"line\",\"yAxis\":0}},\"error_y\":{\"type\":\"data\",\"visible\":true},\"sortX\":true,\"showDataLabels\":false,\"missingValuesAsZero\":true,\"useAggregationsUi\":true,\"numberFormat\":\"0,0.[00000]\",\"dateTimeFormat\":\"DD/MM/YYYY HH:mm\",\"sortY\":true,\"valuesOptions\":{},\"xAxis\":{\"labels\":{\"enabled\":true},\"type\":\"-\"}}",
+                "query_name": "fb1a5629b4804d79ab6d9a647364174c"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "68bc555e",
+            "multilineTextboxSpec": {
+              "lines": [
+                "## <span style=\"font-size:48px;line-height:1.5\">**Sales Dashboard**</span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "7f9d034c",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "c48379f0",
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-single-select",
+              "encodings": {},
+              "frame": {
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
