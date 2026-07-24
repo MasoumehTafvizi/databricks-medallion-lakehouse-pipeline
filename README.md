@@ -1,9 +1,9 @@
-# Databricks Medallion Lakehouse Pipeline
+# 🚀 Databricks Medallion Lakehouse Pipeline
 An end-to-end Databricks Lakehouse project that ingests operational data from CRM and ERP source systems, transforms it through **Bronze**, **Silver**, and **Gold** layers, and publishes analytics-ready tables for Databricks SQL and BI dashboards.
 
 The project demonstrates a practical implementation of the **Medallion Architecture** using PySpark, Spark SQL, Delta Lake, Unity Catalog, and dependency-based orchestration.
 
-## Project Overview
+## 📋 Project Overview
 This project implements a multi-layer batch data pipeline in Databricks to process raw sales-related data from two operational source systems:
 - **CRM** : customer, product, and sales data
 - **ERP** : customer attributes, locations, and product categories
@@ -24,7 +24,7 @@ Gold dimensions and sales fact table
 Databricks SQL queries and sales dashboard
 
 
-## Why This Architecture?
+## 🎯 Why This Architecture?
 This design separates ingestion, transformation, and business modeling into independent layers. It provides:
 - **Scalability** — Spark and Delta Lake support distributed processing and growing data volumes.
 - **Traceability** — raw source data remains available in the Bronze layer for auditing and troubleshooting.
@@ -35,7 +35,7 @@ This design separates ingestion, transformation, and business modeling into inde
 - **Governance** — Unity Catalog provides catalog, schema, table, and volume organization.
 
 
-## Architecture
+## 🏗️ Architecture
 
 flowchart LR
 
@@ -68,7 +68,7 @@ The pipeline is executed as a dependency-based Databricks Job. Downstream tasks 
 
 *Databricks Job dependency graph for the Bronze, Silver, and Gold pipeline layers.*
 
-# Medallion Layers
+# 🏅 Medallion Layers
 
 ## 🥉 Bronze Layer
 
@@ -163,7 +163,7 @@ The Gold layer is designed for:
 - Sales performance analysis
 
 
-Execution Flow
+## 🔗 Execution Flow
 The pipeline can be executed as a dependency-based Databricks Job. Each downstream task should run only when its required upstream tasks have completed successfully.
 flowchart TD
 
@@ -194,7 +194,7 @@ The repository also contains orchestration notebooks that provide single entry p
 
 The Gold orchestration notebook runs the customer dimension, product dimension, and sales fact notebooks in sequence.
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 .
@@ -231,7 +231,7 @@ The Gold orchestration notebook runs the customer dimension, product dimension, 
 └── README.md
  ```
 
-## Technologies Used
+## 🛠️ Technologies Used
 
 - **Databricks** — development, compute, workflows, SQL, and dashboarding
 - **Apache Spark** — distributed data processing
@@ -242,7 +242,7 @@ The Gold orchestration notebook runs the customer dimension, product dimension, 
 - **Databricks Jobs** — dependency-based pipeline orchestration
 - **Git and GitHub** — source control and project documentation
 
-## Learning Outcomes
+## 🎓 Learning Outcomes
 
 - By exploring this project, you can learn how to:
 - Design a Bronze–Silver–Gold pipeline
@@ -258,5 +258,7 @@ The Gold orchestration notebook runs the customer dimension, product dimension, 
 - This project is licensed under the MIT License.
 
 
+## 📄 License
 
+This project is licensed under the MIT License.
 
